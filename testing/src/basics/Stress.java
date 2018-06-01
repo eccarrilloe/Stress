@@ -8,13 +8,13 @@ import frames.primitives.Vector;
 import frames.processing.Scene;
 
 import stress.primitives.Point;
-import stress.primitives.Grid;
+import stress.primitives.Axe;
 
 public class Stress extends PApplet {
     Scene scene;
 
     Point _trackedPoint;
-    Grid grid;
+    Axe axe;
 
     public void settings() {
         size(600, 400, P3D);
@@ -24,10 +24,11 @@ public class Stress extends PApplet {
         scene = new Scene(this);
         scene.setType(Graph.Type.ORTHOGRAPHIC);
         scene.setFieldOfView(PI/3);
-        scene.fitBall();
         scene.setRightHanded();
+        scene.setRadius(25);
+        scene.fitBall();
 
-        grid = new Grid(scene, new Vector(10, 0, 0), new Vector(10, 10, 0), "A");
+        axe = new Axe(scene, new Vector(10, 0, 0), new Vector(10, 10, 0), "A");
     }
 
     public void draw() {

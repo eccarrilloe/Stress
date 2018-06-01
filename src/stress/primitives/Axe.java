@@ -7,7 +7,7 @@ import frames.primitives.Vector;
 import frames.processing.Scene;
 import frames.processing.Shape;
 
-public class Grid extends Shape {
+public class Axe extends Shape {
     Scene _scene;
     PApplet _pApplet;
 
@@ -18,15 +18,15 @@ public class Grid extends Shape {
     int _bubbleSize;
     int _bubbleTextColor;
 
-    int _gridColor;
-    int _gridStroke;
+    int _axeColor;
+    int _axeStroke;
 
-    public Grid(Scene scene, Vector i, Vector j, String bubbleText) {
+    public Axe(Scene scene, Vector i, Vector j, String bubbleText) {
         this(scene, i, j, bubbleText, 40, scene.pApplet().color(239, 127, 26), 3, scene.pApplet().color(0));
     }
 
-    Grid(Scene scene, Vector i, Vector j, String bubbleText,
-         int bubbleSize, int ejeColor, int ejeStroke, int bubbleTextColor) {
+    Axe(Scene scene, Vector i, Vector j, String bubbleText,
+         int bubbleSize, int axeColor, int axeStroke, int bubbleTextColor) {
         super(scene);
 
         setScene(scene);
@@ -38,8 +38,8 @@ public class Grid extends Shape {
         setBubbleSize(bubbleSize);
         setBubbleTextColor(bubbleTextColor);
 
-        setGridColor(ejeColor);
-        setGridStroke(ejeStroke);
+        setAxeColor(axeColor);
+        setAxeStroke(axeStroke);
 
         setPrecision(Precision.FIXED);
     }
@@ -100,20 +100,20 @@ public class Grid extends Shape {
         _bubbleTextColor = bubbleTextColor;
     }
 
-    int gridColor() {
-        return _gridColor;
+    int axeColor() {
+        return _axeColor;
     }
 
-    void setGridColor(int gridColor) {
-        _gridColor = gridColor;
+    void setAxeColor(int axeColor) {
+        _axeColor = axeColor;
     }
 
-    int gridStroke() {
-        return _gridStroke;
+    int axeStroke() {
+        return _axeStroke;
     }
 
-    void setGridStroke(int gridStroke) {
-        _gridStroke = gridStroke;
+    void setAxeStroke(int axeStroke) {
+        _axeStroke = axeStroke;
     }
 
 //        float nivelZ() {
@@ -129,8 +129,8 @@ public class Grid extends Shape {
     @Override
     public void setGraphics(PGraphics pGraphics) {
         pGraphics.pushStyle();
-        pGraphics.stroke(gridColor());
-        pGraphics.strokeWeight(gridStroke());
+        pGraphics.stroke(axeColor());
+        pGraphics.strokeWeight(axeStroke());
         pGraphics.line(i().x(), i().y(), j().x(), j().y());
         pGraphics.popStyle();
 
@@ -144,12 +144,13 @@ public class Grid extends Shape {
 
         scene().beginScreenDrawing();
         pGraphics.pushStyle();
-        pGraphics.stroke(gridColor());
-        pGraphics.strokeWeight(gridStroke());
-//            pGraphics.fill(pApplet().red(gridColor()), pApplet().green(gridColor()), pApplet().blue(gridColor()),
-//                    63);
-//            pGraphics.ellipse(center.x(), center.y(), bubbleSize(), bubbleSize());
-//            pGraphics.popStyle();
+        pGraphics.stroke(axeColor());
+        pGraphics.strokeWeight(axeStroke());
+        // pApplet().red(gridColor()), pApplet().green(gridColor()), pApplet().blue(gridColor()), 63
+        System.out.println(pApplet().red(bubbleSize()));
+        pGraphics.fill(0, 0, 0);
+//        pGraphics.ellipse(center.x(), center.y(), bubbleSize(), bubbleSize());
+//        pGraphics.popStyle();
 //
 //            pGraphics.pushStyle();
 //            pGraphics.textAlign(PApplet.CENTER, PApplet.CENTER);

@@ -16,7 +16,7 @@ public class Point extends Shape {
     private int _crossColor;
     private float _crossWeightStroke;
 
-    private boolean _highlight;
+    // private boolean _highlight;
 
     public Point(Scene scene) {
         this(scene, new Vector());

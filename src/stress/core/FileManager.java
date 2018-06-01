@@ -2,7 +2,7 @@ package stress.core;
 
 import frames.processing.Scene;
 import processing.core.PApplet;
-import sun.security.krb5.internal.PAData;
+//import sun.security.krb5.internal.PAData;
 
 public class FileManager {
 
