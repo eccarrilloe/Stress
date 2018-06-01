@@ -30,6 +30,7 @@ public class Axe extends Shape {
         super(scene);
 
         setScene(scene);
+        setPApplet(scene().pApplet());
 
         setI(i);
         setJ(j);
@@ -146,18 +147,16 @@ public class Axe extends Shape {
         pGraphics.pushStyle();
         pGraphics.stroke(axeColor());
         pGraphics.strokeWeight(axeStroke());
-        // pApplet().red(gridColor()), pApplet().green(gridColor()), pApplet().blue(gridColor()), 63
-        System.out.println(pApplet().red(bubbleSize()));
-        pGraphics.fill(0, 0, 0);
-//        pGraphics.ellipse(center.x(), center.y(), bubbleSize(), bubbleSize());
-//        pGraphics.popStyle();
-//
-//            pGraphics.pushStyle();
-//            pGraphics.textAlign(PApplet.CENTER, PApplet.CENTER);
-//            pGraphics.textSize(0.5f * bubbleSize());  // problemas
-//            pGraphics.fill(bubbleTextColor());
-//            pGraphics.text(bubbleText(), center.x(), center.y());  // problemas
-//            pGraphics.popStyle();
+        pGraphics.fill(pApplet().red(axeColor()), pApplet().green(axeColor()), pApplet().blue(axeColor()), 63);
+        pGraphics.ellipse(center.x(), center.y(), bubbleSize(), bubbleSize());
+        pGraphics.popStyle();
+
+        pGraphics.pushStyle();
+        pGraphics.textAlign(PApplet.CENTER, PApplet.CENTER);
+        pGraphics.textSize(0.5f * bubbleSize());  // problemas
+        pGraphics.fill(bubbleTextColor());
+        pGraphics.text(bubbleText(), center.x(), center.y());  // problemas
+        pGraphics.popStyle();
         scene().endScreenDrawing();
     }
 }
