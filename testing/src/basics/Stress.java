@@ -7,14 +7,14 @@ import frames.core.Graph;
 import frames.primitives.Vector;
 import frames.processing.Scene;
 
-import stress.primitives.Point;
-import stress.primitives.Axe;
+//import stress.primitives.Point;
+//import stress.primitives.Axis;
+import stress.primitives.Axes;
 
 public class Stress extends PApplet {
     Scene scene;
 
-    Point _trackedPoint;
-    Axe axe;
+    Axes axes;
 
     public void settings() {
         size(600, 400, P3D);
@@ -28,22 +28,46 @@ public class Stress extends PApplet {
         scene.setRadius(25);
         scene.fitBall();
 
-        axe = new Axe(scene, new Vector(10, 0, 0), new Vector(10, 10, 0), "A");
+        // Axes
+        axes = new Axes(scene);
+        int dx = 5;
+        int dy = 5;
+        int length = dx * dy;
+        String[] xBubbleText = {"A", "B", "C", "D", "E"};
+        for (int i = 0; i < 5; i++) {
+            axes.addAxis(new Vector(-dx, dy * i), new Vector(length + dy, dy * i), xBubbleText[i]);
+        }
+        String[] yBubbleText = {"1", "2", "3", "4", "5"};
+        for (int i = 0; i < 5; i++) {
+            axes.addAxis(new Vector(dx * i, length), new Vector(dx * i, -dy), yBubbleText[i]);
+        }
     }
 
     public void draw() {
         background(127);
-        scene.drawAxes();
+        scene.drawAxes(scene.radius() / 3);
         scene.cast();
     }
 
-    Point trackedPoint() {
-        return _trackedPoint;
-    }
+//    Point trackedPoint() {
+//        return _trackedPoint;
+//    }
 
-    void setTrackedPoint() {
-        _trackedPoint = null;
-    }
+//    public Axis trackedAxis() {
+//        return _trackedAxis;
+//    }
+
+//    void setTrackedPoint() {
+//        _trackedPoint = null;
+//    }
+
+//    public void setTrackedAxis(Axis trackedAxis) {
+//        _trackedAxis = trackedAxis;
+//    }
+
+//    public void mouseClicked() {
+//        scene.focus();
+//    }
 
     public void mouseDragged() {
         if (mouseButton == LEFT) ;
@@ -52,7 +76,8 @@ public class Stress extends PApplet {
     }
 
     public void mouseMoved() {
-        setTrackedPoint();
+//        setTrackedPoint();
+//        if (scene.track(mouseX, mouseY, axis)) scene.setTrackedFrame(axis);
     }
 
     public void mouseWheel(MouseEvent event) {

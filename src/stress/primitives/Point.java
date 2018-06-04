@@ -6,10 +6,10 @@ import frames.primitives.Vector;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
+/*
+Creo que no tiene sentido extender de Shape si punto se dibuja en pantalla y no se le puede hacer tracked
+ */
 public class Point extends Shape {
-    private PApplet _pApplet;
-    private PGraphics _frontBuffer;
     private Scene _scene;
 
     private float _crossSize;
@@ -26,16 +26,14 @@ public class Point extends Shape {
         super(scene);
 
         setScene(scene);
-        setPApplet(scene().pApplet());
-        setFrontBuffer(scene().frontBuffer());
 
         setPosition(i);
 
         setCrossSize(20);
-        setCrossColor(pApplet().color(53, 56, 57));
+        setCrossColor(pApplet().color(53, 56, 57));  // encontrar una mejor solución a pApplet().color()
         setCrossWeightStroke(1.5f);
 
-        setPrecision(Precision.FIXED);
+         setPrecision(Precision.FIXED);  // es como si fuera un Frame en vez de un Shape ?
 //        setHighlighting(Highlighting.FRONT);
     }
 
@@ -47,21 +45,6 @@ public class Point extends Shape {
         this._scene = scene;
     }
 
-    public PApplet pApplet() {
-        return _pApplet;
-    }
-
-    public void setPApplet(PApplet pApplet) {
-        this._pApplet = pApplet;
-    }
-
-    public PGraphics frontBuffer() {
-        return _frontBuffer;
-    }
-
-    public void setFrontBuffer(PGraphics frontBuffer) {
-        this._frontBuffer = frontBuffer;
-    }
 
     public float crossSize() {
         return _crossSize;
@@ -87,6 +70,10 @@ public class Point extends Shape {
         this._crossWeightStroke = crossWeightStroke;
     }
 
+    public PApplet pApplet() {
+        return scene().pApplet();
+    }
+
     @Override
     public void setGraphics(PGraphics pGraphics) {
         Vector center = scene().screenLocation(position());
@@ -94,16 +81,18 @@ public class Point extends Shape {
         pGraphics.pushStyle();
         pGraphics.colorMode(PApplet.RGB, 255);
 
-        if (scene().isTrackedFrame(this)) {
-            pGraphics.stroke(255 - pApplet().red(crossColor()),
-                    255 - pApplet().green(crossColor()), 255 - pApplet().blue(crossColor()));
+        if (!scene().isTrackedFrame(this)) {
+            pGraphics.stroke(pGraphics.red(crossColor()), pGraphics.green(crossColor()), pGraphics.blue(crossColor()));
         } else {
-            pGraphics.stroke(pApplet().red(crossColor()), pApplet().green(crossColor()), pApplet().blue(crossColor()));
+            pGraphics.stroke(255 - pGraphics.red(crossColor()),
+                    255 - pGraphics.green(crossColor()), 255 - pGraphics.blue(crossColor()));
         }
 
         pGraphics.strokeWeight(crossWeightStroke());
         pGraphics.noFill();
-
+        /*
+        Se necesita pGraphics.beginShape()... pGraphics.vertex() para que se seleccione con precision ?
+         */
         scene().beginScreenDrawing();
 
         pGraphics.ellipse(center.x(), center.y(),
