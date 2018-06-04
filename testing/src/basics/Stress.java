@@ -10,11 +10,14 @@ import frames.processing.Scene;
 //import stress.primitives.Point;
 //import stress.primitives.Axis;
 import stress.primitives.Axes;
+import stress.primitives.Node;
 
 public class Stress extends PApplet {
     Scene scene;
 
     Axes axes;
+
+    Node node;
 
     public void settings() {
         size(600, 400, P3D);
@@ -41,6 +44,9 @@ public class Stress extends PApplet {
         for (int i = 0; i < 5; i++) {
             axes.addAxis(new Vector(dx * i, length), new Vector(dx * i, -dy), yBubbleText[i]);
         }
+
+        // Node
+        node = new Node(scene, new Vector(10, 10, 0), "holi");
     }
 
     public void draw() {
