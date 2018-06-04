@@ -19,6 +19,8 @@ public class Stress extends PApplet {
 
     Node node;
 
+    Vector _worldCoordinatesMouse = new Vector();
+
     public void settings() {
         size(600, 400, P3D);
     }
@@ -53,6 +55,8 @@ public class Stress extends PApplet {
         background(127);
         scene.drawAxes(scene.radius() / 3);
         scene.cast();
+
+        println(worldCoordinatesMouse());
     }
 
 //    Point trackedPoint() {
@@ -81,7 +85,22 @@ public class Stress extends PApplet {
         if (mouseButton == RIGHT) scene.mouseCAD(new Vector(0, 0, 1));
     }
 
+    Vector worldCoordinatesMouse() {
+        return _worldCoordinatesMouse;
+    }
+
+    void setWorldCoordinatesMouse() {
+        if (scene.trackedFrame() == null) {
+            _worldCoordinatesMouse = scene.location(new Vector(mouseX, mouseY));
+        } else {
+            if (!scene.trackedFrame().getClass().getName().equals("stress.primitives.Axis")) {
+                _worldCoordinatesMouse = scene.trackedFrame().position();
+            }
+        }
+    }
+
     public void mouseMoved() {
+        setWorldCoordinatesMouse();
 //        setTrackedPoint();
 //        if (scene.track(mouseX, mouseY, axis)) scene.setTrackedFrame(axis);
     }
@@ -89,6 +108,7 @@ public class Stress extends PApplet {
     public void mouseWheel(MouseEvent event) {
         scene.setTrackedFrame(scene.eye());  // revisar una mejor implementacion
         scene.scale(-20 * event.getCount());
+        setWorldCoordinatesMouse();
     }
 
     public static void main(String args[]) {

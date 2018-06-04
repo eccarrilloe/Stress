@@ -34,6 +34,7 @@ public class Point extends Shape {
         setCrossWeightStroke(1.5f);
 
          setPrecision(Precision.FIXED);  // es como si fuera un Frame en vez de un Shape ?
+        setPrecisionThreshold(10);
 //        setHighlighting(Highlighting.FRONT);
     }
 

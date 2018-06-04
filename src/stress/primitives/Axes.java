@@ -131,9 +131,11 @@ public class Axes {
 //        puntos().add(new Punto(scene(), i));
 //    }
 
-//    /**
-//     * Get vector intersection between two ejes
-//     */
+    /**
+     * Get vector intersection between two ejes
+     * Se debe mejorar la precisión del algoritmo evitando al máximo operaciones intermedias
+     * y errores por truncamiento
+     */
     private Vector intersectionBetweenAxis(Axis axis1, Axis axis2) {
         Vector intersection;
 

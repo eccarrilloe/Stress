@@ -8,17 +8,17 @@ import frames.processing.Scene;
 import processing.core.PGraphics;
 
 public class Node extends Frame {
-    Scene _scene;
+    private Scene _scene;
 
-    String _label;
+    private String _label;
 
-    float _nodeSize;
-    int _nodeColor;
+    private float _nodeSize;
+    private int _nodeColor;
 
-    int _labelColor;
-    int _labelSize;
+    private int _labelColor;
+    private int _labelSize;
 
-    boolean _drawLabel;
+    private boolean _drawLabel;
 
     public Node(Scene scene, Vector i, String label) {
         this(scene, i, label, 7.5f, scene.pApplet().color(128, 0, 255), scene.pApplet().color(0),
@@ -109,10 +109,17 @@ public class Node extends Frame {
 
     @Override
     public void visit() {
+        int nodeColorTracked = pApplet().color(255 - pApplet().red(nodeColor()), 255 - pApplet().green(nodeColor()),
+                255 - pApplet().blue(nodeColor()));
         scene().beginScreenDrawing();
         frontBuffer().pushStyle();
         frontBuffer().noStroke();
-        frontBuffer().fill(nodeColor());
+        if (!scene().isTrackedFrame(this)) {
+            frontBuffer().fill(nodeColor());
+        } else {
+            frontBuffer().fill(nodeColorTracked);
+        }
+
         Vector iCoordinates = scene().screenLocation(position());
         frontBuffer().ellipse(iCoordinates.x(), iCoordinates.y(), nodeSize(), nodeSize());
         frontBuffer().popStyle();
