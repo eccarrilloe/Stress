@@ -11,22 +11,24 @@ import frames.processing.Scene;
 // import stress.primitives.Axis;
 import stress.core.Axes;
 import stress.primitives.Node;
+import stress.core.StressManager;
+import stress.primitives.Point;
+import stress.primitives.Grid;
 
 public class Stress extends PApplet {
-    Scene scene;
+    private Scene scene;
+    private Point _trackedPoint;
+    private Grid grid;
+    private StressManager stressManager;
 
     Axes axes;
-
     Node node;
-
     boolean showCoordinates;
-
     Vector _worldCoordinatesMouse = new Vector();
     String _coordinates;
 
-
     public void settings() {
-        size(600, 400, P3D);
+        size(800, 600, P3D);
     }
 
     public void setup() {
@@ -53,6 +55,9 @@ public class Stress extends PApplet {
 
         // Node
         node = new Node(scene, new Vector(10, 10, 0), "holi");
+        stressManager = new StressManager(this, scene);
+
+        grid = new Grid(scene, new Vector(10, 0, 0), new Vector(10, 10, 0), "A");
     }
 
     public void draw() {

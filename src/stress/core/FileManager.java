@@ -12,6 +12,11 @@ public class FileManager {
         this.parent = parent;
     }
 
+    public Boolean export(String filename) {
 
+    }
 
+    public Boolean import(String filename) {
+
+    }
 }
