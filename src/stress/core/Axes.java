@@ -1,14 +1,15 @@
-package stress.primitives;
+package stress.core;
 
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
+//import processing.core.PGraphics;
 
 import frames.primitives.Vector;
 import frames.processing.Scene;
 
 import stress.primitives.Axis;
+import stress.primitives.Point;
 //import stress.primitives.Point;
 
 
@@ -93,7 +94,8 @@ public class Axes {
     public void addAxis(Axis axis) {
         axis().add(axis);
         modifyAxes();
-//        moveCenterScene();
+        PApplet.println("Modificar el center y anchor de la scene deberia hacerse en stress manager");
+        modifyBallScene();
         // scene().setAnchor(new Vector(25, 25, 0));
     }
 
@@ -113,15 +115,19 @@ public class Axes {
         }
     }
 
-    private void moveCenterScene() {
-        Vector center = new Vector();
+    private void modifyBallScene() {
+        if (points().size() > 0) {
+            Vector center = new Vector();
 
-        for (int i = 0; i < points().size(); i++) {
-            center.add(points().get(i).position());
+            for (int i = 0; i < points().size(); i++) {
+                center.add(points().get(i).position());
+            }
+            center.divide(points().size());
+
+            scene().setCenter(center);
+            scene().setAnchor(center);
+            scene().setRadius(1.5f * center.magnitude());
         }
-        center.divide(points().size());
-
-        scene().setCenter(center);
     }
 
 //    /**
