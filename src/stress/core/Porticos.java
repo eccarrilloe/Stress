@@ -15,14 +15,19 @@ public class Porticos {
 
     public ArrayList<Portico> _porticos;
 
+    public boolean _showExtrude;
+
     public boolean _drawLabels;
+    public boolean _drawLocalAxes;
 
     public Porticos(Scene scene) {
         setScene(scene);
 
         setPorticos(new ArrayList<>());
 
+        setShowExtrude(false);
         setDrawLabels(false);
+        setDrawLocalAxes(false);
     }
 
     public Scene scene() {
@@ -41,6 +46,17 @@ public class Porticos {
         _porticos = porticos;
     }
 
+    public boolean showExtrude() {
+        return _showExtrude;
+    }
+
+    public void setShowExtrude(boolean showExtrude) {
+        for (Portico portico : porticos()) {
+            portico.setShowExtrude(showExtrude);
+        }
+        _showExtrude = showExtrude;
+    }
+
     public boolean drawLabels() {
         return _drawLabels;
     }
@@ -50,6 +66,17 @@ public class Porticos {
             portico.setDrawLabel(drawLabel);
         }
         _drawLabels = drawLabel;
+    }
+
+    public boolean drawLocalAxes() {
+        return _drawLocalAxes;
+    }
+
+    public void setDrawLocalAxes(boolean drawLocalAxes) {
+        for (Portico portico: porticos()) {
+            portico.setDrawLocalAxes(drawLocalAxes);
+        }
+        _drawLocalAxes = drawLocalAxes;
     }
 
     public void add(PShape section, Vector i, Vector j) {

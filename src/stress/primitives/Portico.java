@@ -19,6 +19,7 @@ public class Portico extends Shape{
     private Vector _j;
     private String _label;
 
+    private boolean _drawLocalAxes;
     private boolean _showExtrude;
     private int _porticoColor;
     private int _labelColor;
@@ -26,12 +27,12 @@ public class Portico extends Shape{
     private boolean _drawLabel;
 
     public Portico(Scene scene, PShape section, Vector i, Vector j, String label) {
-        this(scene, section, i, j, label, false, scene.pApplet().color(128, 0, 255), scene.pApplet().color(0),
+        this(scene, section, i, j, label, false, false, scene.pApplet().color(63, 0, 255), scene.pApplet().color(0),
                 14, false);  // ver como solucionar scene.pApplet().color
     }
 
-    public Portico(Scene scene, PShape section, Vector i, Vector j, String label, boolean showExtrude, int porticoColor,
-                   int labelColor, int labelSize, boolean drawLabel) {
+    public Portico(Scene scene, PShape section, Vector i, Vector j, String label, boolean drawLocalAxes,
+                   boolean showExtrude, int porticoColor, int labelColor, int labelSize, boolean drawLabel) {
         super(scene);
 
         setScene(scene);
@@ -41,7 +42,8 @@ public class Portico extends Shape{
         setJ(j);
         setLabel(label);
 
-        setExtrude(showExtrude);
+        setDrawLocalAxes(drawLocalAxes);
+        setShowExtrude(showExtrude);
         setPorticoColor(porticoColor);
         setLabelColor(labelColor);
         setLabelSize(labelSize);
@@ -50,7 +52,8 @@ public class Portico extends Shape{
         setPosition(i);
         setRotation(new Quaternion(new Vector(1, 0, 0), localVector()));
 
-        setPrecision(Frame.Precision.FIXED);
+        setPrecision(Precision.EXACT);
+        setHighlighting(Highlighting.NONE);
     }
 
     public Scene scene() {
@@ -93,11 +96,19 @@ public class Portico extends Shape{
         _label = label;
     }
 
+    public boolean drawLocalAxes() {
+        return _drawLocalAxes;
+    }
+
+    public void setDrawLocalAxes(boolean drawLocalAxes) {
+        _drawLocalAxes = drawLocalAxes;
+    }
+
     public boolean showExtrude() {
         return _showExtrude;
     }
 
-    public void setExtrude(boolean showExtrude) {
+    public void setShowExtrude(boolean showExtrude) {
         _showExtrude = showExtrude;
     }
 
@@ -179,50 +190,78 @@ public class Portico extends Shape{
 //    private PGraphics frontBuffer() {
 //        return scene().frontBuffer();
 //    }
-//
+
     @Override
     public void setGraphics(PGraphics pGraphics) {
+        if (drawLocalAxes()) {
+            pGraphics.pushMatrix();
+            pGraphics.translate(deltaXLocal() / 2, 0, 0);
+            scene().drawAxes(pGraphics, scene().radius() / 6);
+            pGraphics.popMatrix();
+        }
+
         pGraphics.pushMatrix();
-        pGraphics.translate(deltaXLocal() / 2, 0, 0);
-        scene().drawAxes(pGraphics, scene().radius() / 6);
-        pGraphics.popMatrix();
+        pGraphics.rotateY(PApplet.radians(90));
 
-        pGraphics.beginDraw();
-
-        if (showExtrude()) {
-            pGraphics.pushMatrix();
-
-            pGraphics.pushMatrix();
+        if (!showExtrude()) {
             pGraphics.pushStyle();
-            pGraphics.fill(pApplet().red(porticoColor()), pApplet().green(porticoColor()),
-                    pApplet().blue(porticoColor()), 63);
-            pGraphics.stroke(porticoColor());
-            pGraphics.rotateY(PApplet.radians(90));
-            // pGraphics.rotateZ(PApplet.radians(90));
-            pGraphics.shape(extrude());
+            pGraphics.noStroke();
+
+            if (!scene().isTrackedFrame(this)) {
+                pGraphics.fill(porticoColor());
+            } else {
+                pGraphics.fill(255 - pApplet().red(porticoColor()), 255 - pApplet().green(porticoColor()),
+                        255 - pApplet().blue(porticoColor()));
+            }
+
+            Scene.drawCylinder(pGraphics, 0.1f, deltaXLocal());
+
             pGraphics.popStyle();
-            pGraphics.popMatrix();
-
-            pGraphics.pushMatrix();
-            pGraphics.rotateY(PApplet.radians(90));
-            // pGraphics.rotateZ(PApplet.radians(90));
-            pGraphics.shape(section());
-            pGraphics.popMatrix();
-
-            pGraphics.translate(deltaXLocal(), 0, 0);
-
-            pGraphics.pushMatrix();
-            pGraphics.rotateY(PApplet.radians(90));
-            // pGraphics.rotateZ(PApplet.radians(90)); //
-            pGraphics.shape(section());
-            pGraphics.popMatrix();
         } else {
             pGraphics.pushStyle();
-            pGraphics.stroke(porticoColor());
-            pGraphics.strokeWeight(5);
-            pGraphics.line(0, 0, 0, deltaXLocal(), 0, 0);
+
+            if (!scene().isTrackedFrame(this)) {
+                pGraphics.stroke(porticoColor());
+                pGraphics.fill(pApplet().red(porticoColor()), pApplet().green(porticoColor()),
+                        pApplet().blue(porticoColor()), 63);
+            } else {
+                pGraphics.stroke(255 - pApplet().red(porticoColor()), 255 - pApplet().green(porticoColor()),
+                        255 - pApplet().blue(porticoColor()));
+                pGraphics.fill(255 - pApplet().red(porticoColor()), 255 - pApplet().green(porticoColor()),
+                        255 - pApplet().blue(porticoColor()), 63);
+            }
+
+            pGraphics.rotateZ(PApplet.radians(90));
+            pGraphics.shape(extrude());
+
+            pGraphics.pushMatrix();
+            pGraphics.shape(section());
+            pGraphics.popMatrix();
+
+//            pGraphics.pushMatrix();
+//            pGraphics.translate(deltaXLocal(), 0, 0);
+//            pGraphics.shape(section());
+//            pGraphics.popMatrix();
+//
             pGraphics.popStyle();
         }
-        pGraphics.endDraw();
+
+        pGraphics.popMatrix();
+//
+
+//
+//            pGraphics.pushMatrix();
+//            pGraphics.rotateY(PApplet.radians(90));
+//            // pGraphics.rotateZ(PApplet.radians(90)); //
+//            pGraphics.shape(section());
+//            pGraphics.popMatrix();
+//        } else {
+//            pGraphics.pushStyle();
+//            pGraphics.stroke(porticoColor());
+//            pGraphics.strokeWeight(5);
+//            pGraphics.line(0, 0, 0, deltaXLocal(), 0, 0);
+//            pGraphics.popStyle();
+//        }
+//        pGraphics.endDraw();
     }
 }

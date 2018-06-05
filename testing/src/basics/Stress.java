@@ -30,7 +30,6 @@ public class Stress extends PApplet {
     public boolean showTrackedObject = true;
 
     public boolean drawLevels = false;
-    public boolean drawExtrude = false;
 
     public boolean addNode = false;
     public boolean addPortico = false;
@@ -317,6 +316,9 @@ public class Stress extends PApplet {
 
     public void keyPressed() {
         switch (key) {
+            case 'a':
+                porticos.setDrawLocalAxes(!porticos.drawLocalAxes());
+                break;
             case 'c':
                 println("Las coordenadas deben ser administradas en el stressManager");
                 showCoordinates = !showCoordinates;
@@ -350,10 +352,9 @@ public class Stress extends PApplet {
                     println("canel");
                 }
                 break;
-//            case 'x':
-//                drawExtrude = !drawExtrude;
-//
-//
+            case 'x':
+                porticos.setShowExtrude(!porticos.showExtrude());
+                break;
             case '+':
                 axes.setActualIndexLevel(axes.actualIndexLevel() < axes.levels().size() - 1 ?
                         axes.actualIndexLevel() + 1 : 0);
