@@ -238,11 +238,11 @@ public class Portico extends Shape{
             pGraphics.shape(section());
             pGraphics.popMatrix();
 
-//            pGraphics.pushMatrix();
-//            pGraphics.translate(deltaXLocal(), 0, 0);
-//            pGraphics.shape(section());
-//            pGraphics.popMatrix();
-//
+            pGraphics.pushMatrix();
+            pGraphics.translate(0, 0, deltaXLocal());
+            pGraphics.shape(section());
+            pGraphics.popMatrix();
+
             pGraphics.popStyle();
         }
 
