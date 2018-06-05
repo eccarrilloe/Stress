@@ -46,7 +46,6 @@ public class Point extends Shape {
         this._scene = scene;
     }
 
-
     public float crossSize() {
         return _crossSize;
     }
@@ -74,6 +73,11 @@ public class Point extends Shape {
     public PApplet pApplet() {
         return scene().pApplet();
     }
+
+    public void setLevel(float level) {
+        setPosition(new Vector(position().x(), position().y(), level));
+    }
+
 
     @Override
     public void setGraphics(PGraphics pGraphics) {

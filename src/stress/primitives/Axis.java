@@ -128,11 +128,11 @@ public class Axis extends Frame {
 //            return position().z();
 //        }
 //
-//        public void setNivelZ(float nivelZ) {
-//            setI(new Vector(i().x(), i().y(), nivelZ));
-//            setJ(new Vector(j().x(), j().y(), nivelZ));
-//            setPosition(new Vector(position().x(), position().y(), nivelZ));
-//        }
+    public void setLevel(float level) {
+        setI(new Vector(i().x(), i().y(), level));
+        setJ(new Vector(j().x(), j().y(), level));
+        setPosition(new Vector(position().x(), position().y(), level));
+    }
 
     @Override
     public void visit() {
@@ -274,7 +274,7 @@ public class Axis extends Frame {
 //        _scene = scene;
 //    }
 //
-//    Vector i() {
+//    public Vector i() {
 //        return _i;
 //    }
 //
@@ -282,7 +282,7 @@ public class Axis extends Frame {
 //        _i = i;
 //    }
 //
-//    Vector j() {
+//    public Vector j() {
 //        return _j;
 //    }
 //
@@ -434,4 +434,4 @@ public class Axis extends Frame {
 //        scene().endScreenDrawing();
 //    }
 //}
-
+//

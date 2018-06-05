@@ -3,25 +3,25 @@ package stress.core;
 import java.util.ArrayList;
 
 import frames.processing.Scene;
+import frames.primitives.Vector;
 
 import stress.primitives.Node;
 
 public class Nodes {
-
     Scene _scene;
 
     ArrayList<Node> _nodes;
 
-    boolean _drawLabel;
+    boolean _drawLabels;
 
     public Nodes(Scene scene) {
         setScene(scene);
 
         setNodes(new ArrayList<>());
 
-//        setDrawLabel(true);
+        setDrawLabels(false);
     }
-//
+
     public Scene scene() {
         return _scene;
     }
@@ -39,26 +39,22 @@ public class Nodes {
     }
 
 
-    public boolean drawLabel() {
-        return _drawLabel;
+    public boolean drawLabels() {
+        return _drawLabels;
     }
 
-    void setDrawLabel(boolean drawLabel) {
-//        for (Nodo nodo : nodos()) {
-//            nodo.setDrawEtiqueta(drawEtiqueta);
-//        }
-//        _drawEtiqueta = drawEtiqueta;
-//    }
-//
-//    void add(Vector i) {
-//        add(new Nodo(scene(), i, Integer.toString(nodos().size() + 1)));
-//    }
-//
-//    void add(Nodo nodo) {
-//        nodos().add(nodo);
-//    }
-}
+    public void setDrawLabels(boolean drawLabel) {
+        for (Node node : nodes()) {
+            node.setDrawLabel(drawLabel);
+        }
+        _drawLabels = drawLabel;
+    }
 
+    public void add(Vector i) {
+        add(new Node(scene(), i, Integer.toString(nodes().size() + 1)));
+    }
 
-
+    public void add(Node node) {
+        nodes().add(node);
+    }
 }
