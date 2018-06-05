@@ -94,7 +94,6 @@ public class Axes {
     public void addAxis(Axis axis) {
         axis().add(axis);
         modifyAxes();
-        PApplet.println("Modificar el center y anchor de la scene deberia hacerse en stress manager");
         modifyBallScene();
         // scene().setAnchor(new Vector(25, 25, 0));
     }

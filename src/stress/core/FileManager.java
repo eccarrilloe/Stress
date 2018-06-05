@@ -1,9 +1,5 @@
 package stress.core;
 
-import frames.processing.Scene;
-import processing.core.PApplet;
-//import sun.security.krb5.internal.PAData;
-
 public class FileManager {
 
     StressManager parent;
@@ -12,11 +8,11 @@ public class FileManager {
         this.parent = parent;
     }
 
-    public Boolean export(String filename) {
-
+    public Boolean exportFile(String filename) {
+        return false;
     }
 
-    public Boolean import(String filename) {
-
+    public Boolean importFile(String filename) {
+        return false;
     }
 }

@@ -13,22 +13,27 @@ import stress.core.Axes;
 import stress.primitives.Node;
 import stress.core.StressManager;
 import stress.primitives.Point;
-import stress.primitives.Grid;
+
+import java.awt.*;
 
 public class Stress extends PApplet {
     private Scene scene;
-    private Point _trackedPoint;
-    private Grid grid;
     private StressManager stressManager;
 
-    Axes axes;
-    Node node;
+    private int width = 0;
+    private int height = 0;
+    private Axes axes;
+    private Node node;
     boolean showCoordinates;
-    Vector _worldCoordinatesMouse = new Vector();
-    String _coordinates;
+    private Vector _worldCoordinatesMouse = new Vector();
+    private String _coordinates;
 
     public void settings() {
-        size(800, 600, P3D);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.width = screenSize.width - 400;
+        this.height = screenSize.height - 200;
+
+        size(width, height, P3D);
     }
 
     public void setup() {
@@ -57,7 +62,6 @@ public class Stress extends PApplet {
         node = new Node(scene, new Vector(10, 10, 0), "holi");
         stressManager = new StressManager(this, scene);
 
-        grid = new Grid(scene, new Vector(10, 0, 0), new Vector(10, 10, 0), "A");
     }
 
     public void draw() {
@@ -65,7 +69,7 @@ public class Stress extends PApplet {
         scene.drawAxes(scene.radius() / 3);
         scene.cast();
 
-        if (showCoordinates) showCoordinates();
+        if (showCoordinates) ;//showCoordinates();
     }
 
 //    Point trackedPoint() {
@@ -88,71 +92,6 @@ public class Stress extends PApplet {
 //        scene.focus();
 //    }
 
-    private Vector worldCoordinatesMouse() {
-        return _worldCoordinatesMouse;
-    }
-
-    private void setWorldCoordinatesMouse() {
-        if (scene.trackedFrame() == null) {
-            _worldCoordinatesMouse = scene.location(new Vector(mouseX, mouseY));
-        } else {
-            if (!scene.trackedFrame().getClass().getName().equals("stress.primitives.Axis")) {
-                _worldCoordinatesMouse = scene.trackedFrame().position();
-            }
-        }
-    }
-
-    private String coordinates() {
-        return _coordinates;
-    }
-
-    private void setCoordinates(String coordinates) {
-        _coordinates = coordinates;
-    }
-
-    void showCoordinates() {
-        String coordinates;
-
-        scene.beginScreenDrawing();
-        pushStyle();
-
-        textAlign(RIGHT, BOTTOM);
-        textSize(14);
-
-        fill(0);
-        text(")", width, height);
-        coordinates = ")";
-
-        fill(0, 0, 255);
-        text(nf(worldCoordinatesMouse().z(), 0, 3), width - textWidth(coordinates), height);
-        coordinates = nf(worldCoordinatesMouse().z(), 0, 3) + coordinates;
-
-        fill(0);
-        text(" ,", width - textWidth(coordinates), height);
-        coordinates = " ," + coordinates;
-
-        fill(0, 255, 0);
-        text(nf(worldCoordinatesMouse().y(), 0, 3), width - textWidth(coordinates), height);
-        coordinates = nf(worldCoordinatesMouse().y(), 0, 3) + coordinates;
-
-        fill(0);
-        text(" ,", width - textWidth(coordinates), height);
-        coordinates = " ," + coordinates;
-
-        fill(255, 0, 0);
-        text(nf(worldCoordinatesMouse().x(), 0, 3), width - textWidth(coordinates), height);
-        coordinates = nf(worldCoordinatesMouse().x(), 0, 3) + coordinates;
-
-        fill(0);
-        text("(", width - textWidth(coordinates), height);
-        coordinates = "(" + coordinates;
-
-        scene.endScreenDrawing();
-        popStyle();
-
-        setCoordinates(coordinates);
-    }
-
     public void mouseDragged() {
         if (mouseButton == LEFT) ;
         if (mouseButton == CENTER) scene.mousePan();
@@ -160,7 +99,7 @@ public class Stress extends PApplet {
     }
 
     public void mouseMoved() {
-        setWorldCoordinatesMouse();
+        // setWorldCoordinatesMouse();
     }
 
     public void mouseWheel(MouseEvent event) {
@@ -171,16 +110,15 @@ public class Stress extends PApplet {
          */
         scene.setTrackedFrame(scene.eye());  // revisar una mejor implementacion
         scene.scale(-20 * event.getCount());
-        setWorldCoordinatesMouse();
+        // setWorldCoordinatesMouse();
     }
 
 
     public void keyPressed() {
         switch (key) {
-            case 'c':
-                println("Las coordenadas deben ser administradas en el stressManager");
+            case 'd':
                 showCoordinates = !showCoordinates;
-                if (!showCoordinates) setCoordinates("");
+                if (!showCoordinates) ;//setCoordinates("");
                 break;
 //            case 'e':
 //                nodos.setDrawEtiqueta(!nodos.drawEtiqueta());
