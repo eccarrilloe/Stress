@@ -3,36 +3,34 @@ package stress.core;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-//import processing.core.PGraphics;
 
 import frames.primitives.Vector;
 import frames.processing.Scene;
 
 import stress.primitives.Axis;
 import stress.primitives.Point;
-//import stress.primitives.Point;
 
 
 public class Axes {
-//    private PGraphics _frontBuffer;
     private Scene _scene;
 
     private ArrayList<Axis> _axis;
     private ArrayList<Point> _points;
 
-//    int _actualIndexNivelZ;
-//    ArrayList<Float> _nivelesZ;
+    int _actualIndexLevel;
+    ArrayList<Float> _levels;
 
     public Axes(Scene scene) {
         setScene(scene);
 
         setAxis(new ArrayList<>());
         setPoints(new ArrayList<>());
+        setLevels(new ArrayList<>());
 
-//        _actualIndexNivelZ = 0;
+        addLevel(0);
+        setActualIndexLevel(0);
 
-//        _nivelesZ = new ArrayList();
-//        _nivelesZ.add(0f);
+        setLevels(new ArrayList<>());
     }
 
     public Scene scene() {
@@ -59,33 +57,34 @@ public class Axes {
         _points = points;
     }
 
-//    public PApplet pApplet() {
-//        return scene().pApplet();
-//    }
+    public int actualIndexLevel() {
+        return _actualIndexLevel;
+    }
 
-//    public int actualIndexNivelZ() {
-//        return _actualIndexNivelZ;
-//    }
+    public void setActualIndexLevel(int indexLevel) {
+        _actualIndexLevel = indexLevel;
 
-//    public void setActualIndexNivelZ(int index) {
-//        if ((0 <= index) && (index < nivelesZ().size())) {
-//            _actualIndexNivelZ = index;
-//            for (Punto punto : puntos()) {
-//                punto.setNivelZ(nivelesZ().get(actualIndexNivelZ()));
-//            }
-//            for (Eje eje : ejes()) {
-//                eje.setNivelZ(nivelesZ().get(actualIndexNivelZ()));
-//            }
-//        }
-//    }
+        if ((0 <= indexLevel) && (indexLevel < levels().size())) {
+            for (Point point : points()) {
+                point.setLevel(levels().get(actualIndexLevel()));
+            }
+            for (Axis axis : axis()) {
+                axis.setLevel(levels().get(actualIndexLevel()));
+            }
+        }
+    }
 
-//    public ArrayList<Float> nivelesZ() {
-//        return _nivelesZ;
-//    }
+    public ArrayList<Float> levels() {
+        return _levels;
+    }
 
-//    public void addNivelZ(float nivelZ) {
-//        nivelesZ().add(nivelZ);
-//    }
+    public void setLevels(ArrayList<Float> levels) {
+        _levels = levels;
+    }
+
+    public void addLevel(float level) {
+        levels().add(level);
+    }
 
     public void addAxis(Vector i, Vector j, String bubbleTexto) {
         addAxis(new Axis(scene(), i, j, bubbleTexto));
@@ -96,7 +95,6 @@ public class Axes {
         modifyAxes();
         PApplet.println("Modificar el center y anchor de la scene deberia hacerse en stress manager");
         modifyBallScene();
-        // scene().setAnchor(new Vector(25, 25, 0));
     }
 
     private void modifyAxes() {

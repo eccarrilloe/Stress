@@ -7,23 +7,29 @@ import frames.core.Graph;
 import frames.primitives.Vector;
 import frames.processing.Scene;
 
-// import stress.primitives.Point;
-// import stress.primitives.Axis;
 import stress.core.Axes;
-import stress.primitives.Node;
+import stress.core.Nodes;
 
 public class Stress extends PApplet {
-    Scene scene;
+    public Scene scene;
 
-    Axes axes;
+    public Axes axes;
 
-    Node node;
+    public Nodes nodes;
 
-    boolean showCoordinates;
+    public boolean showCoordinates = true;
+    public boolean showLevel = true;
+    public boolean showTrackedObject = true;
 
-    Vector _worldCoordinatesMouse = new Vector();
-    String _coordinates;
+    public boolean drawLevels = false;
 
+    public boolean addNode;
+//    public boolean addPortico;
+
+    public Vector _worldCoordinatesMouse = new Vector();
+    public String _coordinates;
+    public String _level;
+    public String _trackedObject;
 
     public void settings() {
         size(600, 400, P3D);
@@ -50,9 +56,12 @@ public class Stress extends PApplet {
         for (int i = 0; i < 5; i++) {
             axes.addAxis(new Vector(dx * i, length), new Vector(dx * i, -dy), yBubbleText[i]);
         }
+        axes.addLevel( 0f);
+        axes.addLevel( 5f);
+        axes.addLevel(10f);
 
-        // Node
-        node = new Node(scene, new Vector(10, 10, 0), "holi");
+        // Nodes
+        nodes = new Nodes(scene);
     }
 
     public void draw() {
@@ -61,6 +70,10 @@ public class Stress extends PApplet {
         scene.cast();
 
         if (showCoordinates) showCoordinates();
+        if (showLevel) showLevel();
+        if (showTrackedObject) showTrackedObject();
+
+        if (drawLevels) drawLevels();
     }
 
 //    Point trackedPoint() {
@@ -79,11 +92,15 @@ public class Stress extends PApplet {
 //        _trackedAxis = trackedAxis;
 //    }
 
-//    public void mouseClicked() {
-//        scene.focus();
-//    }
+    public void addNode() {
+        nodes.add(worldCoordinatesMouse());
+    }
 
-    private Vector worldCoordinatesMouse() {
+    public void addPortico() {
+        ;
+    }
+
+    public Vector worldCoordinatesMouse() {
         return _worldCoordinatesMouse;
     }
 
@@ -145,7 +162,97 @@ public class Stress extends PApplet {
         scene.endScreenDrawing();
         popStyle();
 
-        setCoordinates(coordinates);
+        setCoordinates("     " + coordinates);
+    }
+
+    public String level() {
+        return _level;
+    }
+
+    public void setLevel(String level) {
+        _level = level;
+    }
+
+    public void showLevel() {
+        String level;
+
+        scene.beginScreenDrawing();
+        pushStyle();
+
+        textAlign(RIGHT, BOTTOM);
+        textSize(14);
+
+        fill(0);
+
+        level = "Nivel Z: " + nf(axes.levels().get(axes.actualIndexLevel()), 0, 3);
+
+        text(level, width - textWidth(coordinates()), height);
+
+        scene.endScreenDrawing();
+        popStyle();
+
+        setLevel("     " + level + coordinates());
+    }
+
+    public void drawLevels() {
+        for (int i = 0; i < axes.levels().size(); i++) {
+            pushStyle();
+            if (i == axes.actualIndexLevel()) {
+                stroke(144, 238, 144);
+                fill(144, 238, 144, 15);
+            } else {
+                stroke(31, 117, 254);
+                fill(31, 117, 254, 15);
+            }
+            pushMatrix();
+            translate(0, 0, axes.levels().get(i));
+            ellipse(scene.center().x(), scene.center().y(),
+                    2 * scene.radius(), 2 * scene.radius());
+            popMatrix();
+            popStyle();
+        }
+    }
+
+    public String trackedObject() {
+        return _trackedObject;
+    }
+
+    public void setTrackedObject(String trackedObjec) {
+        _trackedObject = trackedObjec;
+    }
+
+    public void showTrackedObject() {
+        String trackedObject;
+
+        scene.beginScreenDrawing();
+        pushStyle();
+
+        textAlign(RIGHT, BOTTOM);
+        textSize(14);
+
+        fill(0);
+
+        trackedObject = "";
+
+        if (!(scene.trackedFrame() == null)) {
+            trackedObject = scene.trackedFrame().getClass().getSimpleName();
+        }
+
+        text(trackedObject, width - max(textWidth(level()), textWidth(coordinates())), height);
+
+        scene.endScreenDrawing();
+        popStyle();
+
+        setTrackedObject("     " + trackedObject + level());
+    }
+
+    public void mouseClicked(MouseEvent event) {
+        if (addNode && mouseButton == LEFT && event.getCount() == 1) {
+            addNode();
+            addNode = false;
+            println("done");
+        }
+//        scene.focus();
     }
 
     public void mouseDragged() {
@@ -169,7 +276,6 @@ public class Stress extends PApplet {
         setWorldCoordinatesMouse();
     }
 
-
     public void keyPressed() {
         switch (key) {
             case 'c':
@@ -177,31 +283,37 @@ public class Stress extends PApplet {
                 showCoordinates = !showCoordinates;
                 if (!showCoordinates) setCoordinates("");
                 break;
-//            case 'e':
-//                nodos.setDrawEtiqueta(!nodos.drawEtiqueta());
-//                break;
-//            case 'n':
-//                addNodo = !addNodo;
-//                if (addNodo) {
-//                    println("add nodo");
-//                } else {
-//                    println("cancel");
-//                }
-//                break;
-//            case '+':
-//                indexNivelZ = indexNivelZ < ejes.nivelesZ().size() - 1 ? indexNivelZ + 1 : 0;
-//                ejes.setActualIndexNivelZ(indexNivelZ);
-//                break;
-//            case '-':
-//                indexNivelZ = 0 < indexNivelZ ? indexNivelZ - 1 : ejes.nivelesZ().size() - 1;
-//                ejes.setActualIndexNivelZ(indexNivelZ);
-//                break;
-//            case 'z':
-//                drawNivelesZ = !drawNivelesZ;
-//                break;
+            case 'e':
+                showLevel = !showLevel;
+                if(!showLevel) setLevel("");
+                break;
+            case 'f':
+                showTrackedObject = !showTrackedObject;
+                if(!showTrackedObject) setTrackedObject("");
+            case 'l':
+                nodes.setDrawLabels(!nodes.drawLabels());
+                break;
+            case 'n':
+                addNode = !addNode;
+                if (addNode) {
+                    println("add nodo");
+                } else {
+                    println("cancel");
+                }
+                break;
+            case '+':
+                axes.setActualIndexLevel(axes.actualIndexLevel() < axes.levels().size() - 1 ?
+                        axes.actualIndexLevel() + 1 : 0);
+                break;
+            case '-':
+                axes.setActualIndexLevel(0 < axes.actualIndexLevel() ?
+                        axes.actualIndexLevel() - 1 : axes.levels().size() - 1);
+                break;
+            case 'z':
+                drawLevels = !drawLevels;
+                break;
         }
     }
-
 
     public static void main(String args[]) {
         PApplet.main(new String[]{"basics.Stress"});

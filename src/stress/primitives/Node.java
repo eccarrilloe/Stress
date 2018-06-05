@@ -22,7 +22,7 @@ public class Node extends Frame {
 
     public Node(Scene scene, Vector i, String label) {
         this(scene, i, label, 7.5f, scene.pApplet().color(128, 0, 255), scene.pApplet().color(0),
-                14, true);  // ver como solucionar scene.pApplet().color
+                14, false);  // ver como solucionar scene.pApplet().color
     }
 
     public Node(Scene scene, Vector i, String label, float nodeSize, int nodeColor, int labelColor, int labelSize,
@@ -91,11 +91,11 @@ public class Node extends Frame {
         _labelSize = labelSize;
     }
 
-    boolean drawLabel() {
+    public boolean drawLabel() {
         return _drawLabel;
     }
 
-    void setDrawLabel(boolean drawLabel) {
+    public void setDrawLabel(boolean drawLabel) {
         _drawLabel = drawLabel;
     }
 
