@@ -85,6 +85,6 @@ public class Porticos {
 
     public void add(Portico portico) {
         porticos().add(portico);
-        PApplet.println(porticos().size());
+        System.out.println(porticos().get(0));
     }
 }

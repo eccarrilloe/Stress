@@ -193,12 +193,12 @@ public class Portico extends Shape{
 
     @Override
     public void setGraphics(PGraphics pGraphics) {
-        if (drawLocalAxes()) {
+       /*if (drawLocalAxes()) {
             pGraphics.pushMatrix();
             pGraphics.translate(deltaXLocal() / 2, 0, 0);
             scene().drawAxes(pGraphics, scene().radius() / 6);
             pGraphics.popMatrix();
-        }
+       }*/
 
         pGraphics.pushMatrix();
         pGraphics.rotateY(PApplet.radians(90));
@@ -214,7 +214,7 @@ public class Portico extends Shape{
                         255 - pApplet().blue(porticoColor()));
             }
 
-            Scene.drawCylinder(pGraphics, 0.1f, deltaXLocal());
+            pGraphics.shape(extrude());
 
             pGraphics.popStyle();
         } else {
@@ -235,33 +235,15 @@ public class Portico extends Shape{
             pGraphics.shape(extrude());
 
             pGraphics.pushMatrix();
+            pGraphics.translate(0, 0, deltaXLocal());
             pGraphics.shape(section());
             pGraphics.popMatrix();
-
-//            pGraphics.pushMatrix();
-//            pGraphics.translate(deltaXLocal(), 0, 0);
-//            pGraphics.shape(section());
-//            pGraphics.popMatrix();
-//
-            pGraphics.popStyle();
         }
 
         pGraphics.popMatrix();
-//
+    }
 
-//
-//            pGraphics.pushMatrix();
-//            pGraphics.rotateY(PApplet.radians(90));
-//            // pGraphics.rotateZ(PApplet.radians(90)); //
-//            pGraphics.shape(section());
-//            pGraphics.popMatrix();
-//        } else {
-//            pGraphics.pushStyle();
-//            pGraphics.stroke(porticoColor());
-//            pGraphics.strokeWeight(5);
-//            pGraphics.line(0, 0, 0, deltaXLocal(), 0, 0);
-//            pGraphics.popStyle();
-//        }
-//        pGraphics.endDraw();
+    public String toString() {
+        return _i.toString() + _j.toString();
     }
 }

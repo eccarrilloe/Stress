@@ -57,6 +57,17 @@ public class StressManager {
         this.textLevel = "";
         this.textTrackedObject = "";
 
+        // section
+        section = parent.createShape();
+        section.beginShape();
+        section.fill(parent.color(0, 0, 255, 63));
+        section.stroke(parent.color(0, 0, 255));
+        section.vertex( 0.125f,  0.225f);
+        section.vertex(-0.125f,  0.225f);
+        section.vertex(-0.125f, -0.225f);
+        section.vertex( 0.125f, -0.225f);
+        section.endShape(parent.CLOSE);
+
         this.parent.registerMethod("draw", this);
         this.parent.registerMethod("keyEvent", this);
         this.parent.registerMethod("mouseEvent", this);
@@ -78,7 +89,45 @@ public class StressManager {
     }
 
     public void runCommand() {
+        String[] params = this.commandManager.command.split(" ");
+        String command = params[0].toUpperCase();
+        String i = "";
+        String j = "";
+        String[] iCoords;
+        String[] jCoords;
 
+        switch (command) {
+            case "CREATE":
+                switch (params[1].toUpperCase()){
+                    case "NODE":
+                        i = params[2];
+
+                        iCoords = i.substring(1, i.length() - 1).split(",");
+                        Vector iVect = new Vector(Integer.valueOf(iCoords[0]), Integer.valueOf(iCoords[1]), Integer.valueOf(iCoords[2]));
+
+                        System.out.println(i);
+                        System.out.println(iVect);
+
+                        this.addNode(iVect);
+                        break;
+                    case "PORTICO":
+                        i = params[2];
+                        j = params[3];
+
+                        iCoords = i.substring(1, i.length() - 1).split(",");
+                        this.i = new Vector(Integer.valueOf(iCoords[0]), Integer.valueOf(iCoords[1]), Integer.valueOf(iCoords[2]));
+
+                        jCoords = j.substring(1, j.length() - 1).split(",");
+                        this.j = new Vector(Integer.valueOf(jCoords[0]), Integer.valueOf(jCoords[1]), Integer.valueOf(jCoords[2]));
+
+                        this.addPortico();
+                        break;
+                }
+                break;
+            default:
+                System.out.println("ERROR: Command not Found");
+                break;
+        }
     }
 
     public void initManager() {
@@ -168,7 +217,7 @@ public class StressManager {
         scene.beginScreenDrawing();
         parent.pushStyle();
 
-        int offsetX = (int) parent.textWidth(textCoordinates);
+        int offsetX = (int) parent.textWidth(textCoordinates) + 10;
         int offsetY = 10;
 
         if (status == Status.COMMAND) {
@@ -224,6 +273,11 @@ public class StressManager {
         nodes.add(mouseCoordinates);
     }
 
+    public void addNode(Vector vect) {
+        System.out.println(vect);
+        nodes.add(vect);
+    }
+
     public void addPortico() {
         porticos.add(section, i, j);
     }
@@ -231,7 +285,7 @@ public class StressManager {
     public void drawCommandLine() {
         scene.beginScreenDrawing();
         parent.pushStyle();
-        parent.fill(32);
+        parent.fill(32, 32, 32, 200);
         parent.noStroke();
         parent.rect(0, scene.height() - 30, scene.width(), scene.height());
         parent.fill(255);
@@ -306,13 +360,11 @@ public class StressManager {
             } else if (!scene.trackedFrame().getClass().getName().equals("stress.primitives.Axis")) {
                 mouseCoordinates = scene.trackedFrame().position();
             }
-        } else if (mouseEvent.getAction() == MouseEvent.CLICK) {
-            if (showAddNode && mouseEvent.getButton() == parent.LEFT && mouseEvent.getCount() == 1) {
+        } else if (mouseEvent.getAction() == MouseEvent.CLICK && mouseEvent.getButton() == parent.LEFT && mouseEvent.getCount() == 1) {
+            if (showAddNode) {
                 this.addNode();
                 this.showAddNode = false;
-            }
-
-            if (showAddPortico && mouseEvent.getAction() == parent.LEFT && mouseEvent.getCount() == 1) {
+            } else if (showAddPortico) {
                 if (i == null) {
                     i = mouseCoordinates;
                     return;
@@ -320,7 +372,8 @@ public class StressManager {
                     j = mouseCoordinates;
                 }
 
-                porticos.add(section, i, j);
+                addPortico();
+
                 i = null;
                 j = null;
                 showAddPortico = false;
