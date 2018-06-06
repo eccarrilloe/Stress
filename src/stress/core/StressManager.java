@@ -24,6 +24,7 @@ public class StressManager {
     private Boolean showAddNode;
     private Boolean showAddPortico;
     private Boolean showDrawLevels;
+    private Boolean showDrawLevel;
 
     private String textCoordinates;
     private String textLevel;
@@ -52,6 +53,7 @@ public class StressManager {
         this.showAddNode = false;
         this.showAddPortico = false;
         this.showDrawLevels = false;
+        this.showDrawLevel = false;
 
         this.textCoordinates = "";
         this.textLevel = "";
@@ -85,6 +87,10 @@ public class StressManager {
         }
         if (showTrackedObject) {
             drawTrackedObject();
+        }
+
+        if (showDrawLevel) {
+            drawLevel();
         }
     }
 
@@ -160,6 +166,27 @@ public class StressManager {
         axes.addLevel(10f);
     }
 
+    public void drawLevels() {
+        for (int i = 0; i < axes.levels().size(); i++) {
+            parent.pushStyle();
+
+            if (i == axes.actualIndexLevel()) {
+                parent.stroke(144, 238, 144);
+                parent.fill(144, 238, 144, 15);
+            } else {
+                parent.stroke(31, 117, 254);
+                parent.fill(31, 117, 254, 15);
+            }
+
+            parent.pushMatrix();
+            parent.translate(0, 0, axes.levels().get(i));
+            parent.ellipse(scene.center().x(), scene.center().y(), 2 * scene.radius(), 2 * scene.radius());
+
+            parent.popMatrix();
+            parent.popStyle();
+        }
+    }
+
     public void drawCoordinates() {
         if (mouseCoordinates != null) {
             String coordinates;
@@ -211,13 +238,13 @@ public class StressManager {
         }
     }
 
-    public void drawLevels() {
+    public void drawLevel() {
         String level;
 
         scene.beginScreenDrawing();
         parent.pushStyle();
 
-        int offsetX = (int) parent.textWidth(textCoordinates) + 10;
+        int offsetX = (int) (parent.textWidth(textCoordinates) + 10);
         int offsetY = 10;
 
         if (status == Status.COMMAND) {
@@ -245,7 +272,7 @@ public class StressManager {
         scene.beginScreenDrawing();
         parent.pushStyle();
 
-        int offsetX = parent.max((int) parent.textWidth(textLevel), (int) parent.textWidth(textCoordinates));
+        int offsetX = (int) (parent.textWidth(textLevel) + parent.textWidth(textCoordinates) + 10);
         int offsetY = 10;
 
         if (status == Status.COMMAND) {
@@ -313,6 +340,7 @@ public class StressManager {
             } else {
                 switch(event.getKey()) {
                     case 'c':
+                        textCoordinates = "";
                         showCoordinates = !showCoordinates;
                         break;
                     case 'a':
@@ -345,8 +373,11 @@ public class StressManager {
                         axes.setActualIndexLevel(0 < axes.actualIndexLevel() ?
                                 axes.actualIndexLevel() - 1 : axes.levels().size() - 1);
                         break;
-                    case 'z':
+                    case 'q':
                         showDrawLevels = !showDrawLevels;
+                        break;
+                    case 'z':
+                        showDrawLevel = !showDrawLevel;
                         break;
                 }
             }

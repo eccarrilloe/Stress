@@ -193,12 +193,12 @@ public class Portico extends Shape{
 
     @Override
     public void setGraphics(PGraphics pGraphics) {
-       /*if (drawLocalAxes()) {
+       if (drawLocalAxes()) {
             pGraphics.pushMatrix();
             pGraphics.translate(deltaXLocal() / 2, 0, 0);
             scene().drawAxes(pGraphics, scene().radius() / 6);
             pGraphics.popMatrix();
-       }*/
+       }
 
         pGraphics.pushMatrix();
         pGraphics.rotateY(PApplet.radians(90));
