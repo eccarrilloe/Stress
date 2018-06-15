@@ -1,16 +1,10 @@
 package basics;
 
 import processing.core.PApplet;
-import processing.core.PShape;
-import processing.event.MouseEvent;
 
 import frames.core.Graph;
-import frames.primitives.Vector;
 import frames.processing.Scene;
 
-import stress.core.Axes;
-import stress.core.Nodes;
-import stress.core.Porticos;
 import stress.core.StressManager;
 
 import java.awt.*;
@@ -18,29 +12,6 @@ import java.awt.*;
 
 public class Stress extends PApplet {
     public Scene scene;
-
-    public Axes axes;
-    public Nodes nodes;
-    public Porticos porticos;
-
-    public PShape section;
-
-    public Vector i;
-    public Vector j;
-
-    public boolean showCoordinates = true;
-    public boolean showLevel = true;
-    public boolean showTrackedObject = true;
-
-    public boolean drawLevels = false;
-
-    public boolean addNode = false;
-    public boolean addPortico = false;
-
-    public Vector _worldCoordinatesMouse = new Vector();
-    public String _coordinates;
-    public String _level;
-    public String _trackedObject;
 
     public StressManager stressManager;
 
@@ -62,17 +33,6 @@ public class Stress extends PApplet {
 
         stressManager = new StressManager(this, scene);
         stressManager.initManager();
-
-        // section
-        section = createShape();
-        section.beginShape();
-        section.fill(color(0, 0, 255, 63));
-        section.stroke(color(0, 0, 255));
-        section.vertex( 0.125f,  0.225f);
-        section.vertex(-0.125f,  0.225f);
-        section.vertex(-0.125f, -0.225f);
-        section.vertex( 0.125f, -0.225f);
-        section.endShape(CLOSE);
     }
 
     public void draw() {
