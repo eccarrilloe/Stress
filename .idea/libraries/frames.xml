@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="frames">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../framesjs/distribution/frames-4/download/frames/library/frames.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Processing/libraries/frames/library/frames.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
