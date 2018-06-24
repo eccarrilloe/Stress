@@ -8,8 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Stress" />
-    <orderEntry type="library" name="src" level="project" />
     <orderEntry type="library" name="core" level="project" />
-    <orderEntry type="library" name="frames" level="project" />
+    <orderEntry type="module" module-name="framesjs" />
   </component>
 </module>

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="frames">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Processing/libraries/frames/library/frames.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

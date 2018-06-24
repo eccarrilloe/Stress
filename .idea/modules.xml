@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Stress.iml" filepath="$PROJECT_DIR$/Stress.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framesjs/framesjs.iml" filepath="$PROJECT_DIR$/../framesjs/framesjs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framesjs/resources/resources.iml" filepath="$PROJECT_DIR$/../framesjs/resources/resources.iml" />
       <module fileurl="file://$PROJECT_DIR$/testing/testing.iml" filepath="$PROJECT_DIR$/testing/testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framesjs/testing/testing1.iml" filepath="$PROJECT_DIR$/../framesjs/testing/testing1.iml" />
     </modules>
   </component>
 </project>
