@@ -6,7 +6,7 @@ import processing.event.KeyEvent;*/
 import processing.event.MouseEvent;
 
 import frames.processing.Scene;
-// import frames.primitives.Vector;
+import frames.primitives.Vector;
 
 // import stress.constants.Status;
 
@@ -396,7 +396,7 @@ public class StressManager {
 //            } else if (!scene.trackedFrame().getClass().getName().equals("stress.primitives.Axis")) {
 //                mouseCoordinates = scene.trackedFrame().position();
 //            }
-        } else if (false) {// (event.getAction() == MouseEvent.CLICK && event.getButton() == parent.LEFT && event.getCount() == 1) {
+        } else if (event.getAction() == MouseEvent.CLICK && event.getButton() == pApplet.LEFT && event.getCount() == 1) {
 //            if (showAddNode) {
 //                this.addNode();
 //                this.showAddNode = false;
@@ -417,14 +417,16 @@ public class StressManager {
         } else if (event.getAction() == MouseEvent.WHEEL) {
             // scene.setTrackedFrame(scene.eye());
             scene.scale(-20 * event.getCount());
-            pApplet.println("Hacia donde apuntar el wheel ?");
+            pApplet.println("Hacia donde apuntar el wheel ?"  +
+                "\n Aumentar la sensibilidad ?");
         } else if (event.getAction() == MouseEvent.DRAG) {
             if (event.getButton() == pApplet.LEFT) {
-
+                pApplet.println("Hace falta implementar");
             } else if (event.getButton() == pApplet.CENTER) {
                 scene.translate();
             } else if (event.getButton() == pApplet.RIGHT) {
-                scene.spin();// scene.spin(new Vector(0, 0, 1));
+                scene.rotateCAD(new Vector(0, 0, 1));
+                pApplet.println("Con respecto a que punto está rotando ?");
             }
         }
     }
