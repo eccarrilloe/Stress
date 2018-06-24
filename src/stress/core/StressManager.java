@@ -41,6 +41,9 @@ public class StressManager {
     // private Nodes nodes;
     // private Porticos porticos;
 
+    private Vector screenCoordinates;
+    private boolean drawSelector = false;
+
     public StressManager(PApplet pApplet, Scene scene) {
         this.pApplet = pApplet;
         this.scene = scene;
@@ -72,30 +75,55 @@ public class StressManager {
 //        section.vertex( 0.125f, -0.225f);
 //        section.endShape(pApplet.CLOSE);*/
 //
-//        // this.pApplet.registerMethod("draw", this);
+         this.pApplet.registerMethod("draw", this);
 //        // this.pApplet.registerMethod("keyEvent", this);
           this.pApplet.registerMethod("mouseEvent", this);
     }
 //
-//    // public void draw() {
-//        // if (status == Status.COMMAND) {
-//            // drawCommandLine();
-//        // }
-//        // if (toggleShowCoordinates) {
-//            // drawCoordinates();
-//        // }
-//        // if (showDrawLevels) {
-//            // drawLevels();
-//        // }
-//        // if (toggleShowTrackedObject) {
-//            // drawTrackedObject();
-//        // }
-//
-//        // if (showDrawLevel) {
-//            // drawLevel();
-//        // }
-//    // }
-//
+     public void draw() {
+        // if (drawSelector) drawSelector();
+        // if (status == Status.COMMAND) {
+            // drawCommandLine();
+        // }
+        // if (toggleShowCoordinates) {
+            // drawCoordinates();
+        // }
+        // if (showDrawLevels) {
+            // drawLevels();
+        // }
+        // if (toggleShowTrackedObject) {
+            // drawTrackedObject();
+        // }
+
+        // if (showDrawLevel) {
+            // drawLevel();
+        // }
+     }
+
+     public void drawSelector() {
+        int colorStroke = 127;
+        int colorFill   = 127;
+        int colorAlpha  =  63;
+
+        pApplet.pushStyle();
+
+        pApplet.rectMode(pApplet.CORNERS);
+
+        if (pApplet.mouseX >= screenCoordinates.x()) {
+            pApplet.stroke(0, colorStroke, 0);
+            pApplet.fill(0, colorFill, 0, colorAlpha);
+        } else if (pApplet.mouseX < screenCoordinates.x()) {
+            pApplet.stroke(colorStroke, 0, 0);
+            pApplet.fill(colorFill, 0, 0, colorAlpha);
+        }
+
+        scene.beginScreenDrawing();
+        pApplet.rect(screenCoordinates.x(), screenCoordinates.y(), pApplet.mouseX, pApplet.mouseY);
+        scene.endScreenDrawing();
+
+        pApplet.popStyle();
+     }
+
 //    /* runCommand debería estar en commandManageer y desde este llamar las funciones
 //    de stressManager
 //
@@ -396,7 +424,21 @@ public class StressManager {
 //            } else if (!scene.trackedFrame().getClass().getName().equals("stress.primitives.Axis")) {
 //                mouseCoordinates = scene.trackedFrame().position();
 //            }
+        } else if (event.getAction() == MouseEvent.DRAG) {
+            if (event.getButton() == pApplet.LEFT) {
+                drawSelector = true;
+                pApplet.println("Hace falta implementar");
+            } else if (event.getButton() == pApplet.CENTER) {
+                scene.translate();
+            } else if (event.getButton() == pApplet.RIGHT) {
+                scene.rotateCAD(new Vector(0, 0, 1));
+                pApplet.println("Con respecto a que punto está rotando ?");
+            }
+        } else if (event.getAction() == MouseEvent.RELEASE) {
+            this.screenCoordinates = null;
+            drawSelector = false;
         } else if (event.getAction() == MouseEvent.CLICK && event.getButton() == pApplet.LEFT && event.getCount() == 1) {
+            this.screenCoordinates = new Vector(pApplet.mouseX, pApplet.mouseY);
 //            if (showAddNode) {
 //                this.addNode();
 //                this.showAddNode = false;
@@ -419,15 +461,6 @@ public class StressManager {
             scene.scale(-20 * event.getCount());
             pApplet.println("Hacia donde apuntar el wheel ?"  +
                 "\n Aumentar la sensibilidad ?");
-        } else if (event.getAction() == MouseEvent.DRAG) {
-            if (event.getButton() == pApplet.LEFT) {
-                pApplet.println("Hace falta implementar");
-            } else if (event.getButton() == pApplet.CENTER) {
-                scene.translate();
-            } else if (event.getButton() == pApplet.RIGHT) {
-                scene.rotateCAD(new Vector(0, 0, 1));
-                pApplet.println("Con respecto a que punto está rotando ?");
-            }
         }
     }
 }
