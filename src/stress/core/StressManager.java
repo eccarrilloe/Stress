@@ -81,6 +81,11 @@ public class StressManager {
     }
 
     public void draw() {
+        pApplet.println("El usuario puede cambiar estos parametros, donde almacenar dicha información ?");
+        pApplet.background(0);  // estas variables deben ser modificables por el usuario
+        pApplet.ambientLight(51, 102, 126);  // estas variables deben ser modificables por el usuario
+        pApplet.lights();  // estas variables deben ser modificables por el usuario
+        scene.drawAxes(scene.radius() / 3); // esto debe estar en el manager
         if (drawSelector) drawSelector();/*
         if (status == Status.COMMAND) {
          drawCommandLine();
@@ -101,6 +106,7 @@ public class StressManager {
     }
 
     private void drawSelector() {
+        pApplet.println("El usuario puede cambiar estos parametros, donde almacenar dicha información ?");
         int colorStroke = 127;  // estas variables deben ser modificables por el usuario
         int colorFill = 127;  // estas variables deben ser modificables por el usuario
         int colorAlpha = 63;  // estas variables deben ser modificables por el usuario
@@ -176,8 +182,8 @@ public class StressManager {
 
         porticos = new Porticos(scene);*/
     }
-
-    public void initializeAxes() {/*
+/*
+    public void initializeAxes() {
         axes = new Axes(scene);
 
         int dx = 5;
@@ -196,9 +202,9 @@ public class StressManager {
 
         axes.addLevel( 0f);
         axes.addLevel( 5f);
-        axes.addLevel(10f);*/
+        axes.addLevel(10f);
     }
-
+*/
     /*
         public void drawLevels() {
             for (int i = 0; i < axes.levels().size(); i++) {

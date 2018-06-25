@@ -18,7 +18,6 @@ import java.awt.Toolkit;
 
 
 public class Stress extends PApplet {
-    private Scene scene;
     /*
     public Axes axes;
     public Nodes nodes;
@@ -52,7 +51,7 @@ public class Stress extends PApplet {
     }
 
     public void setup() {
-        scene = new Scene(this);
+        Scene scene = new Scene(this);
         scene.setType(Graph.Type.ORTHOGRAPHIC);  // toggle between orthographic and perspective
         scene.setFieldOfView(PI/3);
         scene.setRightHanded();
@@ -75,8 +74,7 @@ public class Stress extends PApplet {
     }
 
     public void draw() {
-        background(127);
-        scene.drawAxes(scene.radius() / 3); // esto debe estar en el manager
+
         // scene.cast();  // revisar si esto sigue siendo lo mismo
     }
 
