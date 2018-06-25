@@ -5,8 +5,8 @@ import processing.core.PShape;
 import processing.event.MouseEvent;*/
 
 import frames.core.Graph;
-import frames.processing.Scene;/*
-import frames.primitives.Vector;*/
+import frames.processing.Scene;
+// import frames.primitives.Vector;
 /*
 import stress.core.Axes;
 import stress.core.Nodes;
@@ -18,35 +18,33 @@ import java.awt.Toolkit;
 
 
 public class Stress extends PApplet {
-    public Scene scene;
+    private Scene scene;
+    /*
+    public Axes axes;
+    public Nodes nodes;
+    public Porticos porticos;
 
-    // public Axes axes;
-    // public Nodes nodes;
-    // public Porticos porticos;
+    public PShape section;
 
-    // public PShape section;
+    public Vector i;
+    public Vector j;
 
-    // public Vector i;
-    // public Vector j;
+    public boolean showCoordinates = true;
+    public boolean showLevel = true;
+    public boolean showTrackedObject = true;
 
-    // public boolean showCoordinates = true;
-    // public boolean showLevel = true;
-    // public boolean showTrackedObject = true;
+    public boolean drawLevels = false;
 
-    // public boolean drawLevels = false;
+    public boolean addNode = false;
+    public boolean addPortico = false;
 
-    // public boolean addNode = false;
-    // public boolean addPortico = false;
-
-    // public Vector _worldCoordinatesMouse = new Vector();
-    // public String _coordinates;
-    // public String _level;
-    // public String _trackedObject;
-
-    public StressManager stressManager;
-
+    public Vector _worldCoordinatesMouse = new Vector();
+    public String _coordinates;
+    public String _level;
+    public String _trackedObject;
+    */
     public void settings() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  // get screen dimensions
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.width = screenSize.width - 400;
         this.height = screenSize.height - 200;
 
@@ -58,10 +56,10 @@ public class Stress extends PApplet {
         scene.setType(Graph.Type.ORTHOGRAPHIC);  // toggle between orthographic and perspective
         scene.setFieldOfView(PI/3);
         scene.setRightHanded();
-        scene.setRadius(25);
+        scene.setRadius(25);  // cambiar dinamicamente
         scene.fitBall();
 
-        stressManager = new StressManager(this, scene);
+        StressManager stressManager = new StressManager(this, scene);
         stressManager.initManager();
 
         // section
